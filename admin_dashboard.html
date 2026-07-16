@@ -121,7 +121,7 @@
           <div>
             <div class="v-name">Benguet Greens Co-op</div>
             <div class="v-loc">Tublay, Benguet</div>
-            <div class="v-actions"><button class="approve">Approve</button><button>Review docs</button></div>
+            <div class="v-actions"><button class="approve" onclick="showToast('Benguet Greens Co-op approved ✓')">Approve</button><button onclick="showToast('Opening farm documents — coming soon')">Review docs</button></div>
           </div>
         </div>
         <div class="verify-item">
@@ -129,14 +129,14 @@
           <div>
             <div class="v-name">Mountain Fresh Farm</div>
             <div class="v-loc">Atok, Benguet</div>
-            <div class="v-actions"><button class="approve">Approve</button><button>Review docs</button></div>
+            <div class="v-actions"><button class="approve" onclick="showToast('Mountain Fresh Farm approved ✓')">Approve</button><button onclick="showToast('Opening farm documents — coming soon')">Review docs</button></div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="panel">
-      <div class="panel-head"><span class="panel-title">Fulfillment board</span><a class="panel-link" href="#">Filter →</a></div>
+      <div class="panel-head"><span class="panel-title">Fulfillment board</span><a class="panel-link" href="#" onclick="event.preventDefault();showToast('Fulfillment filters — coming soon')">Filter →</a></div>
       <div class="kanban">
         <div class="kcol">
           <div class="kcol-head">Pending<span>12</span></div>
