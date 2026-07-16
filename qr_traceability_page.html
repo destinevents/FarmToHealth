@@ -1,0 +1,103 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F8F2; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11; --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+    --brown-700:#5C4632; --brown-500:#8A6647;
+    --amber-600:#B5790F; --amber-400:#D98F2B; --amber-100:#FAEEDA;
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'IBM Plex Mono', monospace;
+    --r:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); display:flex; justify-content:center; padding:24px 12px 60px;}
+  .page{width:100%; max-width:440px; background:#fff; border-radius:24px; overflow:hidden; border:1px solid #E4E3D8;}
+
+  .hero{position:relative; height:200px; background:linear-gradient(180deg,#2B5A0E,#173404); overflow:hidden;}
+  .hero svg.terrain{position:absolute; bottom:0; left:0; width:100%;}
+  .verified-badge{position:absolute; top:14px; left:14px; z-index:2; display:flex; align-items:center; gap:5px; background:var(--amber-400); color:#4A2F02; font-size:11px; font-weight:700; padding:5px 10px; border-radius:20px;}
+  .pin{position:absolute; left:50%; top:44%; transform:translate(-50%,-100%); z-index:2;}
+
+  .body{padding:20px;}
+  .crop-title{font-family:var(--serif); font-weight:600; font-size:24px; line-height:1.15;}
+  .crop-sub{font-family:var(--mono); font-size:12px; color:var(--ink-faint); margin-top:4px;}
+
+  .farmer-row{display:flex; align-items:center; gap:12px; margin-top:18px; padding:14px; border:1px solid #E4E3D8; border-radius:var(--r);}
+  .f-avatar{width:44px; height:44px; border-radius:50%; background:var(--brown-500); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; flex:none;}
+  .f-name{font-weight:600; font-size:14.5px;}
+  .f-loc{font-size:12px; color:var(--ink-faint); margin-top:1px;}
+
+  .sec-title{font-family:var(--serif); font-weight:500; font-size:16px; margin:24px 0 14px;}
+
+  .timeline{position:relative; padding-left:22px;}
+  .timeline::before{content:''; position:absolute; left:5px; top:4px; bottom:4px; width:1.5px; background:#E4E3D8;}
+  .t-item{position:relative; padding-bottom:20px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-dot{position:absolute; left:-22px; top:2px; width:11px; height:11px; border-radius:50%; background:var(--green-600); border:2px solid #fff; box-shadow:0 0 0 1.5px var(--green-600);}
+  .t-date{font-family:var(--mono); font-size:11px; color:var(--ink-faint); margin-bottom:2px;}
+  .t-label{font-size:13.5px; font-weight:600;}
+  .t-detail{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  .cta{display:block; text-align:center; background:var(--green-600); color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:14px; border-radius:12px; margin-top:24px;}
+  .footer-id{font-family:var(--mono); font-size:10.5px; color:var(--ink-faint); text-align:center; margin-top:14px;}
+</style>
+
+<div class="page">
+  <div class="hero">
+    <span class="verified-badge">✓ Verified by Session Health</span>
+    <svg viewBox="0 0 440 130" preserveAspectRatio="none" class="terrain" aria-hidden="true">
+      <path d="M0 60 Q60 30 120 55 T240 50 T360 65 T440 55 V130 H0 Z" fill="#27500A"/>
+      <path d="M0 85 Q60 65 120 82 T240 78 T360 88 T440 82 V130 H0 Z" fill="#3B6D11"/>
+      <path d="M0 108 Q60 96 120 106 T240 104 T360 110 T440 106 V130 H0 Z" fill="#4D8014"/>
+    </svg>
+    <svg class="pin" width="30" height="38" viewBox="0 0 30 38" fill="none">
+      <path d="M15 0C6.7 0 0 6.7 0 15c0 10.5 15 23 15 23s15-12.5 15-23C30 6.7 23.3 0 15 0z" fill="#D98F2B"/>
+      <circle cx="15" cy="15" r="5.5" fill="#4A2F02"/>
+    </svg>
+  </div>
+
+  <div class="body">
+    <div class="crop-title">Carrots — Kuroda variety</div>
+    <div class="crop-sub">Batch #CR-0728-A · 1kg pack</div>
+
+    <div class="farmer-row">
+      <div class="f-avatar">L</div>
+      <div>
+        <div class="f-name">The Locale Farm</div>
+        <div class="f-loc">Camp Dangwa, La Trinidad, Benguet</div>
+      </div>
+    </div>
+
+    <div class="sec-title">From seed to your door</div>
+    <div class="timeline">
+      <div class="t-item">
+        <span class="t-dot"></span>
+        <div class="t-date">May 12, 2026</div>
+        <div class="t-label">Planted</div>
+        <div class="t-detail">Kuroda carrot seed, terraced highland plot</div>
+      </div>
+      <div class="t-item">
+        <span class="t-dot" style="background:var(--brown-500); box-shadow:0 0 0 1.5px var(--brown-500);"></span>
+        <div class="t-date">Jun 3, 2026</div>
+        <div class="t-label">Fertilizer applied</div>
+        <div class="t-detail">Vermicast, organic — 2kg per row</div>
+      </div>
+      <div class="t-item">
+        <span class="t-dot" style="background:var(--brown-500); box-shadow:0 0 0 1.5px var(--brown-500);"></span>
+        <div class="t-date">Jun 28, 2026</div>
+        <div class="t-label">Pesticide applied</div>
+        <div class="t-detail">Neem-based organic spray, spot treatment</div>
+      </div>
+      <div class="t-item">
+        <span class="t-dot" style="background:var(--amber-600); box-shadow:0 0 0 1.5px var(--amber-600);"></span>
+        <div class="t-date">Jul 14, 2026</div>
+        <div class="t-label">Harvested</div>
+        <div class="t-detail">Hand-picked at peak maturity</div>
+      </div>
+    </div>
+
+    <a class="cta" href="#">Get produce like this — subscribe to Session Health</a>
+    <div class="footer-id">Traceability record · qr_token: 8f2a-91cd-cr0728</div>
+  </div>
+</div>

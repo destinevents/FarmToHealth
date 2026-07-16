@@ -1,0 +1,148 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EA; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11; --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+    --brown-700:#5C4632;
+    --amber-600:#B5790F; --amber-400:#D98F2B; --amber-100:#FAEEDA;
+    --red-600:#A32D2D; --red-100:#F7C1C1;
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:13.5px;}
+  .shell{display:flex; min-height:100vh;}
+
+  .sidebar{width:220px; background:var(--green-900); color:#fff; padding:22px 16px; flex:none;}
+  .wordmark{font-family:var(--serif); font-weight:500; font-size:17px; margin-bottom:2px;}
+  .wordmark-sub{font-family:var(--mono); font-size:10px; color:var(--green-300); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:26px;}
+  .nav-item{display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13px; font-weight:500; color:var(--green-100); margin-bottom:2px; cursor:pointer;}
+  .nav-item svg{width:16px; height:16px;}
+  .nav-item.active{background:rgba(255,255,255,0.1); color:#fff;}
+
+  .main{flex:1; padding:26px 30px; overflow-x:auto;}
+  .top-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;}
+  .page-title{font-family:var(--serif); font-weight:500; font-size:22px;}
+  .page-sub{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
+
+  .kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:26px;}
+  .kpi{background:#fff; border:1px solid #E4E3D8; border-radius:14px; padding:16px;}
+  .kpi-label{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.03em; font-family:var(--mono); margin-bottom:8px;}
+  .kpi-value{font-family:var(--serif); font-weight:500; font-size:26px;}
+  .kpi-delta{font-size:11.5px; font-weight:600; margin-top:4px;}
+  .kpi-delta.up{color:var(--green-700);} .kpi-delta.down{color:var(--red-600);}
+
+  .grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; margin-bottom:26px; align-items:start;}
+  .panel{background:#fff; border:1px solid #E4E3D8; border-radius:14px; padding:18px;}
+  .panel-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+  .panel-title{font-family:var(--serif); font-weight:500; font-size:16px;}
+  .panel-link{font-size:12px; color:var(--green-700); font-weight:600; text-decoration:none;}
+
+  table{width:100%; border-collapse:collapse;}
+  th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-faint); font-weight:600; padding:8px 6px; border-bottom:1px solid #EEEDE4; font-family:var(--mono);}
+  td{padding:10px 6px; border-bottom:1px solid #F3F2EA; font-size:13px;}
+  .status{font-size:10.5px; font-weight:600; padding:2px 8px; border-radius:20px; font-family:var(--mono);}
+  .status.active{background:var(--green-50); color:var(--green-700);}
+  .status.paused{background:var(--amber-100); color:var(--amber-600);}
+
+  .verify-item{display:flex; gap:10px; align-items:flex-start; padding:11px 0; border-top:1px solid #F3F2EA;}
+  .verify-item:first-child{border-top:none; padding-top:0;}
+  .v-avatar{width:32px; height:32px; border-radius:8px; background:var(--brown-700); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex:none;}
+  .v-name{font-weight:600; font-size:13px;}
+  .v-loc{font-size:11.5px; color:var(--ink-faint);}
+  .v-actions{margin-top:6px; display:flex; gap:6px;}
+  .v-actions button{font-size:11px; font-weight:600; border-radius:6px; padding:4px 9px; border:1px solid #E4E3D8; background:#fff; cursor:pointer; font-family:var(--sans);}
+  .v-actions button.approve{background:var(--green-600); color:#fff; border-color:var(--green-600);}
+
+  .kanban{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  .kcol{background:#fff; border:1px solid #E4E3D8; border-radius:14px; padding:12px;}
+  .kcol-head{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-faint); margin-bottom:10px; font-family:var(--mono); display:flex; justify-content:space-between;}
+  .kcard{background:var(--paper); border:1px solid #E9E8DE; border-radius:10px; padding:9px 10px; margin-bottom:8px; font-size:12px;}
+  .kcard b{display:block; font-size:12.5px; margin-bottom:2px;}
+  .kcard span{color:var(--ink-faint); font-size:11px;}
+</style>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="wordmark">Session Health</div>
+    <div class="wordmark-sub">Admin</div>
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Overview</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>Subscribers</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 20l9-15 9 15z"/></svg>Farmers</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>Fulfillment</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Traceability</div>
+  </aside>
+
+  <div class="main">
+    <div class="top-row">
+      <div>
+        <div class="page-title">Overview</div>
+        <div class="page-sub">Baguio &amp; Benguet pilot · Thu, Jul 16</div>
+      </div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-label">Active subscribers</div><div class="kpi-value">312</div><div class="kpi-delta up">↑ 18 this week</div></div>
+      <div class="kpi"><div class="kpi-label">MRR</div><div class="kpi-value">₱287k</div><div class="kpi-delta up">↑ 6.4%</div></div>
+      <div class="kpi"><div class="kpi-label">Verified farms</div><div class="kpi-value">14</div><div class="kpi-delta up">↑ 2 pending</div></div>
+      <div class="kpi"><div class="kpi-label">Orders this week</div><div class="kpi-value">296</div><div class="kpi-delta down">↓ 3 delayed</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-title">Subscribers</span><a class="panel-link" href="#">View all →</a></div>
+        <table>
+          <tr><th>Name</th><th>Plan</th><th>Status</th><th>Next delivery</th></tr>
+          <tr><td>Maria Santos</td><td>Health-Focused Weekly</td><td><span class="status active">active</span></td><td>Jul 23</td></tr>
+          <tr><td>Jon Cabrera</td><td>Family Weekly</td><td><span class="status active">active</span></td><td>Jul 23</td></tr>
+          <tr><td>Divine Ramos</td><td>Solo Monthly</td><td><span class="status paused">paused</span></td><td>—</td></tr>
+          <tr><td>Karl Dizon</td><td>Solo Weekly</td><td><span class="status active">active</span></td><td>Jul 24</td></tr>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-title">Farmer verification</span></div>
+        <div class="verify-item">
+          <div class="v-avatar">B</div>
+          <div>
+            <div class="v-name">Benguet Greens Co-op</div>
+            <div class="v-loc">Tublay, Benguet</div>
+            <div class="v-actions"><button class="approve">Approve</button><button>Review docs</button></div>
+          </div>
+        </div>
+        <div class="verify-item">
+          <div class="v-avatar">M</div>
+          <div>
+            <div class="v-name">Mountain Fresh Farm</div>
+            <div class="v-loc">Atok, Benguet</div>
+            <div class="v-actions"><button class="approve">Approve</button><button>Review docs</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span class="panel-title">Fulfillment board</span><a class="panel-link" href="#">Filter →</a></div>
+      <div class="kanban">
+        <div class="kcol">
+          <div class="kcol-head">Pending<span>12</span></div>
+          <div class="kcard"><b>Box #A104</b><span>Maria Santos · Jul 23</span></div>
+          <div class="kcard"><b>Box #A118</b><span>Jon Cabrera · Jul 23</span></div>
+        </div>
+        <div class="kcol">
+          <div class="kcol-head">Packed<span>7</span></div>
+          <div class="kcard"><b>Box #A099</b><span>Karl Dizon · Jul 22</span></div>
+        </div>
+        <div class="kcol">
+          <div class="kcol-head">Out for delivery<span>4</span></div>
+          <div class="kcard"><b>Box #A087</b><span>Rica Domingo · Jul 21</span></div>
+        </div>
+        <div class="kcol">
+          <div class="kcol-head">Delivered<span>273</span></div>
+          <div class="kcard"><b>Box #A052</b><span>Ella Ferrer · Jul 20</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

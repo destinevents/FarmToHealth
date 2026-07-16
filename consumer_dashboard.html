@@ -1,0 +1,212 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F8F2; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11; --green-300:#97C459;
+    --green-100:#C0DD97; --green-50:#EAF3DE;
+    --brown-700:#5C4632; --brown-500:#8A6647;
+    --amber-600:#B5790F; --amber-400:#D98F2B; --amber-100:#FAEEDA;
+    --water-600:#2F6788; --water-400:#4A7FA5; --water-100:#E6F1FB;
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'IBM Plex Mono', monospace;
+    --r:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:var(--sans); display:flex; justify-content:center; padding:24px 12px 60px;}
+  .app{width:100%; max-width:420px; background:#fff; border-radius:24px; overflow:hidden; border:1px solid #E4E3D8; box-shadow:0 1px 2px rgba(23,52,4,0.04);}
+
+  .hero{position:relative; background:var(--green-900); color:#fff; padding:28px 22px 26px; overflow:hidden;}
+  .hero svg{position:absolute; inset:0; width:100%; height:100%;}
+  .hero-content{position:relative; z-index:1;}
+  .wordmark{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--green-300); margin-bottom:14px;}
+  .greeting{font-family:var(--serif); font-weight:500; font-size:26px; line-height:1.2;}
+  .status-row{display:flex; align-items:center; gap:8px; margin-top:14px;}
+  .dot{width:7px; height:7px; border-radius:50%; background:var(--green-300);}
+  .status-pill{font-family:var(--mono); font-size:12px; color:var(--green-100);}
+
+  main{padding:20px;}
+  section{margin-bottom:26px;}
+  .sec-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;}
+  .sec-title{font-family:var(--serif); font-weight:500; font-size:18px;}
+  .sec-link{font-family:var(--sans); font-size:12.5px; color:var(--green-700); text-decoration:none; font-weight:600;}
+
+  .box-card{border:1px solid #E4E3D8; border-radius:var(--r); padding:16px;}
+  .box-value{font-family:var(--mono); font-size:12px; color:var(--ink-faint); margin-top:-8px; margin-bottom:12px;}
+  .produce{display:flex; align-items:center; gap:12px; padding:10px 0; border-top:1px solid #F0EFE6;}
+  .produce:first-of-type{border-top:none;}
+  .swatch{width:38px; height:38px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;}
+  .swatch svg{width:18px; height:18px;}
+  .p-name{font-size:14px; font-weight:600;}
+  .p-farmer{font-size:12px; color:var(--ink-faint); display:flex; align-items:center; gap:5px; margin-top:2px;}
+  .p-qty{margin-left:auto; font-family:var(--mono); font-size:12.5px; color:var(--ink-soft);}
+  .avatar{width:14px; height:14px; border-radius:50%; background:var(--brown-500); color:#fff; font-size:8px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+
+  .carousel{display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; margin:0 -20px; padding-left:20px; padding-right:20px;}
+  .carousel::-webkit-scrollbar{display:none;}
+  .ai-card{flex:none; width:230px; border:1px solid #E4E3D8; border-radius:var(--r); padding:14px; background:var(--green-50);}
+  .tag{display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:0.03em; background:var(--green-100); color:var(--green-700); padding:3px 8px; border-radius:20px; margin-bottom:9px;}
+  .ai-title{font-size:14px; font-weight:600; margin-bottom:5px;}
+  .ai-reason{font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:10px;}
+  .swap-btn{font-size:12px; font-weight:600; color:var(--green-700); background:none; border:none; padding:0; cursor:pointer; font-family:var(--sans);}
+
+  .health-card{border:1px solid #E4E3D8; border-radius:var(--r); padding:16px;}
+  .health-figures{display:flex; align-items:flex-end; gap:8px; margin-bottom:2px;}
+  .health-num{font-family:var(--serif); font-weight:500; font-size:30px;}
+  .health-delta{font-family:var(--mono); font-size:12.5px; color:var(--green-700); padding-bottom:5px;}
+  .health-sub{font-size:12px; color:var(--ink-faint); margin-bottom:10px;}
+
+  .actions{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .action-btn{border:1px solid #E4E3D8; border-radius:12px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:8px; background:#fff; cursor:pointer; font-family:var(--sans); font-size:11.5px; font-weight:600; color:var(--ink);}
+  .action-btn svg{width:20px; height:20px;}
+  .action-btn.primary{background:var(--green-600); color:#fff; border-color:var(--green-600);}
+
+  .tabbar{display:flex; border-top:1px solid #E4E3D8; padding:10px 8px 14px;}
+  .tab{flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10.5px; color:var(--ink-faint); font-weight:600;}
+  .tab svg{width:20px; height:20px;}
+  .tab.active{color:var(--green-700);}
+</style>
+
+<div class="app">
+  <header class="hero">
+    <svg viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <pattern id="contour" width="220" height="70" patternUnits="userSpaceOnUse">
+          <path d="M0 15 Q55 -5 110 15 T220 15" stroke="rgba(255,255,255,0.09)" fill="none" stroke-width="1"/>
+          <path d="M0 40 Q55 20 110 40 T220 40" stroke="rgba(255,255,255,0.07)" fill="none" stroke-width="1"/>
+          <path d="M0 62 Q55 42 110 62 T220 62" stroke="rgba(255,255,255,0.05)" fill="none" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="400" height="200" fill="url(#contour)"/>
+    </svg>
+    <div class="hero-content">
+      <div class="wordmark">Session Health</div>
+      <div class="greeting">Kumusta, Maria</div>
+      <div class="status-row">
+        <span class="dot"></span>
+        <span class="status-pill">Active · next box Thu, Jul 23</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="sec-head">
+        <span class="sec-title">This week's box</span>
+        <a class="sec-link" href="#">See full box →</a>
+      </div>
+      <div class="box-card">
+        <div class="box-value">₱1,240 value · 5.4kg</div>
+
+        <div class="produce">
+          <div class="swatch" style="background:var(--green-100)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-700)" stroke-width="1.8"><path d="M12 3c-3 3-3 8-3 12a3 3 0 0 0 6 0c0-4 0-9-3-12z"/></svg>
+          </div>
+          <div>
+            <div class="p-name">Pechay, 800g</div>
+            <div class="p-farmer"><span class="avatar">A</span>Ana's farm, La Trinidad</div>
+          </div>
+          <div class="p-qty">×1</div>
+        </div>
+
+        <div class="produce">
+          <div class="swatch" style="background:var(--amber-100)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber-600)" stroke-width="1.8"><circle cx="12" cy="13" r="7"/><path d="M9 3l2 3M15 3l-2 3"/></svg>
+          </div>
+          <div>
+            <div class="p-name">Carrots, 1kg</div>
+            <div class="p-farmer"><span class="avatar" style="background:var(--water-400)">L</span>The Locale Farm</div>
+          </div>
+          <div class="p-qty">×1</div>
+        </div>
+
+        <div class="produce">
+          <div class="swatch" style="background:var(--green-50)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="1.8"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="12" cy="12" r="1.6"/></svg>
+          </div>
+          <div>
+            <div class="p-name">Sayote, 1.2kg</div>
+            <div class="p-farmer"><span class="avatar">A</span>Ana's farm, La Trinidad</div>
+          </div>
+          <div class="p-qty">×2</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <span class="sec-title">Picked for your goals</span>
+      </div>
+      <div class="carousel">
+        <div class="ai-card">
+          <span class="tag">blood sugar friendly</span>
+          <div class="ai-title">More leafy greens this week</div>
+          <div class="ai-reason">Low-GI pechay and sayote from Ana's plot, since your profile flags blood sugar management.</div>
+          <button class="swap-btn">Swap this item</button>
+        </div>
+        <div class="ai-card">
+          <span class="tag">in season now</span>
+          <div class="ai-title">Benguet carrots at peak harvest</div>
+          <div class="ai-reason">Harvested this week at The Locale Farm — freshest potassium source for your goals.</div>
+          <button class="swap-btn">Swap this item</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <span class="sec-title">Your health trend</span>
+        <a class="sec-link" href="#">View history →</a>
+      </div>
+      <div class="health-card">
+        <div class="health-figures">
+          <span class="health-num">68.4kg</span>
+          <span class="health-delta">−1.2 this month</span>
+        </div>
+        <div class="health-sub">Weight, last 8 weeks</div>
+        <svg viewBox="0 0 320 90" width="100%" height="80">
+          <path d="M0 30 Q40 42 80 34 T160 40 T240 46 T320 50" fill="none" stroke="var(--green-100)" stroke-width="1.5"/>
+          <path d="M0 46 Q40 56 80 50 T160 54 T240 58 T320 60" fill="none" stroke="var(--green-100)" stroke-width="1.5" opacity="0.6"/>
+          <path d="M0 18 Q40 26 80 20 T160 16 T240 12 T310 8" fill="none" stroke="var(--amber-400)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="310" cy="8" r="4" fill="var(--amber-600)"/>
+        </svg>
+      </div>
+    </section>
+
+    <section style="margin-bottom:6px;">
+      <div class="actions">
+        <button class="action-btn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2v2h-2z"/></svg>
+          Scan QR
+        </button>
+        <button class="action-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 8a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 5 9 12 9 12s9-7 9-12z"/></svg>
+          Log health
+        </button>
+        <button class="action-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+          Subscription
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <div class="tab active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>
+      Home
+    </div>
+    <div class="tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+      Traceability
+    </div>
+    <div class="tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 8a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 5 9 12 9 12s9-7 9-12z"/></svg>
+      Health
+    </div>
+    <div class="tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+      Profile
+    </div>
+  </nav>
+</div>
