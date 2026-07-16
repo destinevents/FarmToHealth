@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Active — FarmToHealth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#F7F8F2; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+      --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11;
+      --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+      --amber-600:#B5790F; --amber-100:#FAEEDA;
+      --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'IBM Plex Mono', monospace;
+      --r:16px;
+    }
+    *{box-sizing:border-box; margin:0; padding:0;}
+    body{background:var(--paper); color:var(--ink); font-family:var(--sans); display:flex; justify-content:center; padding:24px 12px 60px;}
+    .app{width:100%; max-width:420px; background:#fff; border-radius:24px; overflow:hidden; border:1px solid #E4E3D8; box-shadow:0 1px 3px rgba(23,52,4,0.06);}
+
+    /* Success hero */
+    .hero{background:var(--green-900); padding:44px 22px 40px; text-align:center; position:relative; overflow:hidden;}
+    .hero svg.bg{position:absolute; inset:0; width:100%; height:100%;}
+    .hero-inner{position:relative; z-index:1;}
+    .check-ring{width:72px; height:72px; border-radius:50%; background:var(--green-600); display:flex; align-items:center; justify-content:center; margin:0 auto 20px;}
+    .check-ring svg{width:36px; height:36px;}
+    .hero-title{font-family:var(--serif); font-weight:500; font-size:28px; color:#fff; margin-bottom:8px;}
+    .hero-sub{font-size:13px; color:rgba(255,255,255,0.65); line-height:1.6;}
+
+    main{padding:24px 20px;}
+
+    /* Confirmation card */
+    .confirm-card{border:1px solid #E4E3D8; border-radius:var(--r); overflow:hidden; margin-bottom:20px;}
+    .confirm-header{background:var(--green-50); padding:14px 16px; border-bottom:1px solid var(--green-100);}
+    .confirm-header-label{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--green-700); margin-bottom:4px;}
+    .confirm-header-plan{font-family:var(--serif); font-weight:500; font-size:18px;}
+    .confirm-rows{padding:4px 0;}
+    .confirm-row{display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid #F3F2EA;}
+    .confirm-row:last-child{border-bottom:none;}
+    .confirm-row-label{font-size:12.5px; color:var(--ink-soft);}
+    .confirm-row-val{font-family:var(--mono); font-size:12.5px; font-weight:500;}
+    .status-pill{display:inline-flex; align-items:center; gap:5px; background:var(--green-50); border:1px solid var(--green-100); color:var(--green-700); font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px;}
+    .status-dot{width:6px; height:6px; border-radius:50%; background:var(--green-600);}
+
+    /* What happens next */
+    .next-label{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+    .next-steps{display:flex; flex-direction:column; gap:0;}
+    .next-step{display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-top:1px solid #F0EFE6;}
+    .next-step:first-child{border-top:none;}
+    .ns-icon{width:34px; height:34px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;}
+    .ns-icon svg{width:17px; height:17px;}
+    .ns-title{font-size:13.5px; font-weight:600; margin-bottom:3px;}
+    .ns-body{font-size:12px; color:var(--ink-faint); line-height:1.5;}
+
+    .divider{height:1px; background:#F0EFE6; margin:20px 0;}
+
+    .cta-primary{display:block; text-align:center; background:var(--green-600); color:#fff; text-decoration:none; font-weight:700; font-size:15px; padding:14px; border-radius:12px; margin-bottom:10px;}
+    .cta-secondary{display:block; text-align:center; border:1.5px solid #E4E3D8; color:var(--ink-soft); text-decoration:none; font-weight:600; font-size:14px; padding:13px; border-radius:12px;}
+    .cta-secondary:hover{border-color:var(--green-300);}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <svg class="bg" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <pattern id="contour" width="220" height="70" patternUnits="userSpaceOnUse">
+          <path d="M0 15 Q55 -5 110 15 T220 15" stroke="rgba(255,255,255,0.09)" fill="none" stroke-width="1"/>
+          <path d="M0 40 Q55 20 110 40 T220 40" stroke="rgba(255,255,255,0.06)" fill="none" stroke-width="1"/>
+          <path d="M0 62 Q55 42 110 62 T220 62" stroke="rgba(255,255,255,0.04)" fill="none" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="400" height="200" fill="url(#contour)"/>
+    </svg>
+    <div class="hero-inner">
+      <div class="check-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <div class="hero-title">You're subscribed!</div>
+      <div class="hero-sub">Your first box is being assembled.<br>Delivery expected Thu, Jul 24.</div>
+    </div>
+  </div>
+
+  <main>
+    <div class="confirm-card">
+      <div class="confirm-header">
+        <div class="confirm-header-label">Subscription confirmed</div>
+        <div class="confirm-header-plan" id="plan-name">Health-Focused Weekly</div>
+      </div>
+      <div class="confirm-rows">
+        <div class="confirm-row">
+          <span class="confirm-row-label">Status</span>
+          <span class="status-pill"><span class="status-dot"></span>Active</span>
+        </div>
+        <div class="confirm-row">
+          <span class="confirm-row-label">First delivery</span>
+          <span class="confirm-row-val">Thu, Jul 24</span>
+        </div>
+        <div class="confirm-row">
+          <span class="confirm-row-label">Weekly cost</span>
+          <span class="confirm-row-val" id="plan-price">₱999</span>
+        </div>
+        <div class="confirm-row">
+          <span class="confirm-row-label">Subscriber</span>
+          <span class="confirm-row-val" id="sub-name">You</span>
+        </div>
+        <div class="confirm-row">
+          <span class="confirm-row-label">Fulfillment</span>
+          <span class="confirm-row-val">Baguio &amp; Benguet pilot</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-label">What happens next</div>
+    <div class="next-steps">
+      <div class="next-step">
+        <div class="ns-icon" style="background:var(--green-50)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-700)" stroke-width="1.8"><path d="M3 20l9-15 9 15z"/></svg>
+        </div>
+        <div>
+          <div class="ns-title">Farmers are notified</div>
+          <div class="ns-body">The Locale Farm and Ana's Farm receive your order and begin harvesting for your box.</div>
+        </div>
+      </div>
+      <div class="next-step">
+        <div class="ns-icon" style="background:var(--amber-100)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber-600)" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2v2h-2z"/></svg>
+        </div>
+        <div>
+          <div class="ns-title">Box packed with QR traceability</div>
+          <div class="ns-body">Each item gets a QR code linked to its farm batch — so you know exactly where it came from.</div>
+        </div>
+      </div>
+      <div class="next-step">
+        <div class="ns-icon" style="background:var(--green-50)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--green-700)" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+        </div>
+        <div>
+          <div class="ns-title">Delivered to your door by Thursday</div>
+          <div class="ns-body">Track your box in the dashboard. After delivery, log your health metrics to track your progress.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <a href="../consumer_dashboard.html" class="cta-primary">Go to my dashboard →</a>
+    <a href="../qr_traceability_page.html" class="cta-secondary">Preview QR traceability</a>
+  </main>
+</div>
+
+<script>
+  const plans = {
+    solo:   { name: 'Solo Box',              price: '₱699' },
+    health: { name: 'Health-Focused Weekly', price: '₱999' },
+    family: { name: 'Family Box',            price: '₱1,299' },
+  };
+  const plan = plans[sessionStorage.getItem('fth_plan')] || plans.health;
+  document.getElementById('plan-name').textContent = plan.name;
+  document.getElementById('plan-price').textContent = plan.price;
+  const name = sessionStorage.getItem('fth_name');
+  if (name) document.getElementById('sub-name').textContent = name;
+</script>
+</body>
+</html>
