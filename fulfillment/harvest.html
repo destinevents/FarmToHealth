@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvest & Log Inputs — FarmToHealth</title>
+<meta name="description" content="Farmer harvests assigned crops and logs all inputs for traceability.">
+<meta property="og:title" content="Harvest & Log Inputs — FarmToHealth">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23173404'/%3E%3Cpath d='M16 6c-4 5-4 11-4 14a4 4 0 008 0c0-3 0-9-4-14z' fill='%2397C459'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F8F2; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-700:#27500A; --green-600:#3B6D11; --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+    --brown-900:#2C2015; --brown-700:#5C4632; --brown-100:#E7DCCB;
+    --amber-600:#B5790F; --amber-100:#FAEEDA;
+    --serif:'Fraunces',serif; --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);padding:24px 12px 80px;min-height:100vh;}
+  .app{width:100%;max-width:480px;margin:0 auto;background:#fff;border-radius:24px;overflow:hidden;border:1px solid #E4E3D8;}
+
+  .topbar{background:var(--green-900,#173404);padding:14px 16px;display:flex;align-items:center;gap:10px;}
+  .tb-back{color:var(--green-300);font-family:var(--mono);font-size:11px;text-decoration:none;letter-spacing:0.06em;}
+
+  .hero{background:var(--brown-900);padding:22px 22px 24px;position:relative;overflow:hidden;}
+  .hero svg.bg{position:absolute;inset:0;width:100%;height:100%;}
+  .hero-inner{position:relative;z-index:1;}
+  .hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brown-100);margin-bottom:8px;}
+  .hero-title{font-family:var(--serif);font-weight:500;font-size:22px;color:#fff;line-height:1.2;}
+  .hero-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:5px;}
+
+  .step-bar{background:#fff;border-bottom:1px solid #E4E3D8;padding:0 16px;display:flex;align-items:center;overflow-x:auto;}
+  .step-link{display:flex;align-items:center;gap:6px;padding:12px 12px 12px 0;text-decoration:none;color:var(--ink-faint);flex:none;}
+  .step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;background:#E4E3D8;color:var(--ink-faint);flex:none;}
+  .step-link.done .step-num{background:var(--green-100);color:var(--green-700);}
+  .step-link.active .step-num{background:var(--green-600);color:#fff;}
+  .step-label{font-size:11.5px;font-weight:600;white-space:nowrap;}
+  .step-link.active .step-label{color:var(--green-700);}
+  .step-sep{color:#D0CFC5;font-size:12px;margin:0 4px;flex:none;}
+
+  main{padding:20px;}
+
+  .order-banner{background:var(--green-50);border:1px solid var(--green-100);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;gap:12px;align-items:flex-start;}
+  .ob-icon{width:36px;height:36px;border-radius:10px;background:var(--green-600);display:flex;align-items:center;justify-content:center;flex:none;}
+  .ob-icon svg{width:18px;height:18px;}
+  .ob-title{font-weight:700;font-size:13.5px;margin-bottom:3px;}
+  .ob-sub{font-size:12px;color:var(--ink-faint);}
+
+  .sec-title{font-family:var(--serif);font-weight:500;font-size:16px;margin-bottom:12px;}
+
+  .harvest-card{border:1.5px solid #E4E3D8;border-radius:var(--r);padding:16px;margin-bottom:12px;}
+  .hc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .hc-name{font-size:15px;font-weight:700;}
+  .hc-qty{font-family:var(--mono);font-size:13px;color:var(--green-700);font-weight:600;}
+  .hc-meta{font-size:12px;color:var(--ink-faint);}
+
+  .log-toggle{width:100%;background:none;border:1px dashed #D8D6C8;border-radius:10px;padding:9px;font-size:12px;font-weight:600;color:var(--green-700);cursor:pointer;font-family:var(--sans);margin-top:10px;}
+  .log-form{display:none;margin-top:12px;border-top:1px solid #F0EFE6;padding-top:12px;}
+  .log-form.open{display:block;}
+  .lf-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+  .log-form select,.log-form input{width:100%;font-family:var(--sans);font-size:13px;padding:9px 11px;border:1.5px solid #E4E3D8;border-radius:10px;background:var(--paper);color:var(--ink);}
+  .log-form input:focus,.log-form select:focus{outline:none;border-color:var(--green-600);}
+  .log-save{width:100%;background:var(--green-600);color:#fff;border:none;border-radius:10px;padding:10px;font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans);}
+
+  .check-row{display:flex;align-items:center;gap:10px;margin-top:10px;}
+  .check-box{width:18px;height:18px;accent-color:var(--green-600);cursor:pointer;}
+  .check-label{font-size:13px;font-weight:600;color:var(--ink-soft);}
+
+  .divider{height:1px;background:#F0EFE6;margin:20px 0;}
+
+  .submit-btn{width:100%;background:var(--green-600);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;}
+  .submit-btn:hover{background:var(--green-700);}
+  .submit-btn:disabled{background:#C0DD97;cursor:not-allowed;}
+
+  .privacy{font-size:11px;color:var(--ink-faint);margin-top:12px;padding:9px 12px;background:var(--green-50);border-radius:8px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="hero">
+    <svg class="bg" viewBox="0 0 480 120" preserveAspectRatio="none" aria-hidden="true">
+      <defs><pattern id="cp" width="220" height="60" patternUnits="userSpaceOnUse">
+        <path d="M0 12 Q55 -4 110 12 T220 12" stroke="rgba(255,255,255,0.07)" fill="none" stroke-width="1"/>
+        <path d="M0 36 Q55 18 110 36 T220 36" stroke="rgba(255,255,255,0.05)" fill="none" stroke-width="1"/>
+      </pattern></defs>
+      <rect width="480" height="120" fill="url(#cp)"/>
+    </svg>
+    <div class="hero-inner">
+      <a href="assembly.html" style="display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:14px;">← Assembly</a>
+      <div class="hero-eyebrow">FarmToHealth · Fulfillment</div>
+      <div class="hero-title">Harvest &amp; log inputs</div>
+      <div class="hero-sub">The Locale Farm · Week of Jul 21</div>
+    </div>
+  </div>
+
+  <div class="step-bar">
+    <div><a href="assembly.html" class="step-link done"><span class="step-num">1</span><span class="step-label">Assembly</span></a></div>
+    <span class="step-sep">›</span>
+    <div><a href="harvest.html" class="step-link active"><span class="step-num">2</span><span class="step-label">Harvest &amp; Log</span></a></div>
+    <span class="step-sep">›</span>
+    <div><a href="pack-qr.html" class="step-link"><span class="step-num">3</span><span class="step-label">Pack &amp; QR</span></a></div>
+    <span class="step-sep">›</span>
+    <div><a href="delivery.html" class="step-link"><span class="step-num">4</span><span class="step-label">Delivery</span></a></div>
+  </div>
+
+  <main>
+    <div class="order-banner">
+      <div class="ob-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg></div>
+      <div>
+        <div class="ob-title">Your harvest order for this week</div>
+        <div class="ob-sub">Log all inputs for full traceability · Deadline: Wed Jul 23</div>
+      </div>
+    </div>
+
+    <div class="sec-title">Crops to harvest</div>
+
+    <div class="harvest-card">
+      <div class="hc-top">
+        <div>
+          <div class="hc-name">Carrots — Kuroda</div>
+          <div class="hc-meta">Batch #CR-0728-A · Terraced highland plot</div>
+        </div>
+        <div class="hc-qty">45 kg</div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" class="check-box" id="c1" onchange="updateSubmit()">
+        <label for="c1" class="check-label">Mark as harvested</label>
+      </div>
+      <button class="log-toggle" onclick="this.nextElementSibling.classList.toggle('open')">+ Log fertilizer / pesticide application</button>
+      <div class="log-form" id="lf1">
+        <div class="lf-row">
+          <select><option>Fertilizer</option><option>Pesticide</option><option>Other</option></select>
+          <input placeholder="Product (e.g. Vermicast)">
+        </div>
+        <input type="date" style="margin-bottom:8px;" value="2026-07-14">
+        <input placeholder="Notes (optional)" style="margin-bottom:8px;">
+        <button class="log-save" onclick="saveLog(this,'Carrots')">Save record</button>
+      </div>
+    </div>
+
+    <div class="harvest-card">
+      <div class="hc-top">
+        <div>
+          <div class="hc-name">Pechay</div>
+          <div class="hc-meta">Batch #PC-0721-B · Lower plot, Ana's Farm</div>
+        </div>
+        <div class="hc-qty">40 kg</div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" class="check-box" id="c2" onchange="updateSubmit()">
+        <label for="c2" class="check-label">Mark as harvested</label>
+      </div>
+      <button class="log-toggle" onclick="this.nextElementSibling.classList.toggle('open')">+ Log fertilizer / pesticide application</button>
+      <div class="log-form">
+        <div class="lf-row">
+          <select><option>Fertilizer</option><option>Pesticide</option><option>Other</option></select>
+          <input placeholder="Product name">
+        </div>
+        <input type="date" style="margin-bottom:8px;" value="2026-07-14">
+        <input placeholder="Notes (optional)" style="margin-bottom:8px;">
+        <button class="log-save" onclick="saveLog(this,'Pechay')">Save record</button>
+      </div>
+    </div>
+
+    <div class="harvest-card">
+      <div class="hc-top">
+        <div>
+          <div class="hc-name">Kangkong</div>
+          <div class="hc-meta">Batch #KK-0721-C · Benguet Greens Co-op</div>
+        </div>
+        <div class="hc-qty">15 kg</div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" class="check-box" id="c3" onchange="updateSubmit()">
+        <label for="c3" class="check-label">Mark as harvested</label>
+      </div>
+      <button class="log-toggle" onclick="this.nextElementSibling.classList.toggle('open')">+ Log fertilizer / pesticide application</button>
+      <div class="log-form">
+        <div class="lf-row">
+          <select><option>Fertilizer</option><option>Pesticide</option><option>Other</option></select>
+          <input placeholder="Product name">
+        </div>
+        <input type="date" style="margin-bottom:8px;" value="2026-07-14">
+        <input placeholder="Notes (optional)" style="margin-bottom:8px;">
+        <button class="log-save" onclick="saveLog(this,'Kangkong')">Save record</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <button class="submit-btn" id="submitBtn" disabled onclick="submitHarvest()">Check all crops to submit harvest log</button>
+    <div class="privacy">Only crop variety, quantity and harvest date are visible to the admin team — subscriber health data stays private.</div>
+  </main>
+</div>
+
+<div id="fth-toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E2415;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:9px 18px;border-radius:100px;z-index:10000;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);"></div>
+<nav aria-label="Demo navigation" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;background:rgba(23,52,4,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:5px 6px;border-radius:100px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;padding:4px 8px 4px 6px;border-right:1px solid rgba(255,255,255,0.1);margin-right:2px;">DEMO</span>
+  <a href="../consumer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Consumer</a>
+  <a href="../farmer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;background:#3B6D11;color:#fff;">Farmer</a>
+  <a href="../admin_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Admin</a>
+</nav>
+
+<script>
+function showToast(m){const t=document.getElementById('fth-toast');t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);}
+function updateSubmit(){
+  const all = document.querySelectorAll('.check-box');
+  const checked = document.querySelectorAll('.check-box:checked');
+  const btn = document.getElementById('submitBtn');
+  if(checked.length === all.length){
+    btn.disabled = false;
+    btn.textContent = 'Submit harvest log →';
+  } else {
+    btn.disabled = true;
+    btn.textContent = `${checked.length} of ${all.length} crops marked — check all to continue`;
+  }
+}
+function saveLog(btn, crop){
+  btn.textContent = '✓ Record saved';
+  btn.style.background = '#27500A';
+  showToast(`${crop} input record saved`);
+}
+function submitHarvest(){
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+  setTimeout(() => { window.location.href = 'pack-qr.html'; }, 1000);
+}
+</script>
+</body>
+</html>

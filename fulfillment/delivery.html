@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Confirmation — FarmToHealth</title>
+<meta name="description" content="Confirm delivery of subscriber boxes or flag issues with the operations team.">
+<meta property="og:title" content="Delivery Confirmation — FarmToHealth">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23173404'/%3E%3Cpath d='M16 6c-4 5-4 11-4 14a4 4 0 008 0c0-3 0-9-4-14z' fill='%2397C459'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EA; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11;
+    --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+    --amber-600:#B5790F; --amber-100:#FAEEDA;
+    --red-600:#A32D2D; --red-50:#FDF0EE;
+    --serif:'Fraunces',serif; --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:13.5px;padding-bottom:80px;}
+
+  .topbar{background:var(--green-900);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+  .tb-back{color:var(--green-300);font-family:var(--mono);font-size:11px;text-decoration:none;letter-spacing:0.06em;}
+  .tb-brand{font-family:var(--serif);font-weight:500;font-size:17px;color:#fff;}
+  .tb-section{font-family:var(--mono);font-size:10px;color:var(--green-300);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;}
+  .tb-date{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.4);}
+
+  .step-bar{background:#fff;border-bottom:1px solid #E4E3D8;padding:0 28px;display:flex;align-items:center;overflow-x:auto;}
+  .step-link{display:flex;align-items:center;gap:8px;padding:14px 14px 14px 0;text-decoration:none;color:var(--ink-faint);}
+  .step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;background:#E4E3D8;color:var(--ink-faint);flex:none;}
+  .step-link.done .step-num{background:var(--green-100);color:var(--green-700);}
+  .step-link.active .step-num{background:var(--green-600);color:#fff;}
+  .step-label{font-size:12.5px;font-weight:600;white-space:nowrap;}
+  .step-link.active .step-label{color:var(--green-700);}
+  .step-sep{color:#D0CFC5;font-size:13px;margin:0 6px;flex:none;}
+
+  .main{max-width:960px;margin:0 auto;padding:28px 28px 40px;}
+  .page-title{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:4px;}
+  .page-sub{font-size:12.5px;color:var(--ink-faint);margin-bottom:24px;}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+  .kpi{background:#fff;border:1px solid #E4E3D8;border-radius:14px;padding:16px;}
+  .kpi-label{font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.03em;font-family:var(--mono);margin-bottom:8px;}
+  .kpi-value{font-family:var(--serif);font-weight:500;font-size:26px;}
+  .kpi-sub{font-size:11.5px;margin-top:4px;}
+
+  .panel{background:#fff;border:1px solid #E4E3D8;border-radius:14px;padding:20px;margin-bottom:20px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
+  .panel-title{font-family:var(--serif);font-weight:500;font-size:16px;}
+  .panel-sub{font-size:12px;color:var(--ink-faint);}
+
+  .delivery-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid #F3F2EA;}
+  .delivery-row:first-child{border-top:none;}
+  .dr-dot{width:10px;height:10px;border-radius:50%;flex:none;}
+  .dr-dot.out{background:var(--amber-600);}
+  .dr-dot.delivered{background:var(--green-600);}
+  .dr-name{font-weight:600;font-size:13.5px;}
+  .dr-meta{font-size:12px;color:var(--ink-faint);margin-top:1px;}
+  .dr-time{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-left:auto;white-space:nowrap;}
+  .dr-actions{display:flex;gap:6px;margin-top:8px;}
+  .btn-confirm{font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;cursor:pointer;background:var(--green-600);color:#fff;font-family:var(--sans);}
+  .btn-flag{font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid #E4E3D8;cursor:pointer;background:#fff;color:var(--ink-soft);font-family:var(--sans);}
+  .dr-col{flex:1;}
+
+  .delivered-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-50);border:1px solid var(--green-100);color:var(--green-700);font-family:var(--mono);font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:20px;}
+
+  .success-card{background:var(--green-50);border:1.5px solid var(--green-100);border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;display:none;}
+  .success-card.show{display:block;}
+  .success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-600);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .success-icon svg{width:28px;height:28px;}
+  .success-title{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:8px;}
+  .success-body{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:20px;}
+  .success-cta{display:inline-block;background:var(--green-600);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 28px;border-radius:10px;}
+
+  .health-prompt{background:#fff;border:1px solid #E4E3D8;border-radius:14px;padding:20px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start;}
+  .hp-icon{width:40px;height:40px;border-radius:10px;background:var(--green-50);display:flex;align-items:center;justify-content:center;flex:none;}
+  .hp-icon svg{width:20px;height:20px;}
+  .hp-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+  .hp-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin-bottom:10px;}
+  .hp-link{font-size:13px;font-weight:600;color:var(--green-700);text-decoration:none;}
+
+  .cta-row{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;}
+  .cta-btn{display:inline-block;background:var(--green-600);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 28px;border-radius:10px;border:none;cursor:pointer;font-family:var(--sans);}
+
+  @media(max-width:700px){
+    .topbar{padding:12px 16px;}
+    .main{padding:20px 16px 40px;}
+    .kpi-row{grid-template-columns:1fr 1fr;}
+    .step-label{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="pack-qr.html" class="tb-back">← Pack & QR</a>
+    <div>
+      <div class="tb-brand">FarmToHealth</div>
+      <div class="tb-section">Fulfillment</div>
+    </div>
+  </div>
+  <div class="tb-date">Thu, Jul 24, 2026</div>
+</div>
+
+<div class="step-bar">
+  <div><a href="assembly.html" class="step-link done"><span class="step-num">1</span><span class="step-label">Assembly</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="harvest.html" class="step-link done"><span class="step-num">2</span><span class="step-label">Harvest &amp; Log</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="pack-qr.html" class="step-link done"><span class="step-num">3</span><span class="step-label">Pack &amp; QR</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="delivery.html" class="step-link active"><span class="step-num">4</span><span class="step-label">Delivery</span></a></div>
+</div>
+
+<div class="main">
+  <div class="page-title">Delivery — Thu, Jul 24</div>
+  <div class="page-sub">58 boxes dispatched · 4 still out for delivery</div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Delivered</div>
+      <div class="kpi-value" style="color:var(--green-700);" id="del-count">54</div>
+      <div class="kpi-sub" style="color:var(--green-700);">of 58 boxes</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Out for delivery</div>
+      <div class="kpi-value" style="color:var(--amber-600);" id="out-count">4</div>
+      <div class="kpi-sub">In transit</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Issues flagged</div>
+      <div class="kpi-value" id="flag-count">0</div>
+      <div class="kpi-sub" style="color:var(--ink-faint);">This week</div>
+    </div>
+  </div>
+
+  <!-- Success card (shown after all confirmed) -->
+  <div class="success-card" id="success-card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <div class="success-title">All boxes delivered!</div>
+    <div class="success-body">58 of 58 subscriber boxes confirmed delivered this week. Consumers have been nudged to log their health metrics.</div>
+    <a href="../consumer_dashboard.html" class="success-cta">View a subscriber's dashboard →</a>
+  </div>
+
+  <div class="panel" id="out-panel">
+    <div class="panel-head">
+      <span class="panel-title">Out for delivery</span>
+      <span class="panel-sub" id="out-label">4 boxes in transit</span>
+    </div>
+
+    <div class="delivery-row" id="row-a200">
+      <div class="dr-dot out"></div>
+      <div class="dr-col">
+        <div class="dr-name">Box #A200 — Maria Santos</div>
+        <div class="dr-meta">Baguio City CBD · Health-Focused Weekly · 4 items</div>
+        <div class="dr-actions">
+          <button class="btn-confirm" onclick="confirmDelivery('a200','Maria Santos')">✓ Mark delivered</button>
+          <button class="btn-flag" onclick="flagIssue('a200')">⚑ Flag issue</button>
+        </div>
+      </div>
+      <div class="dr-time">ETA 2:30 PM</div>
+    </div>
+
+    <div class="delivery-row" id="row-a201">
+      <div class="dr-dot out"></div>
+      <div class="dr-col">
+        <div class="dr-name">Box #A201 — Jon Cabrera</div>
+        <div class="dr-meta">La Trinidad · Family Box · 4 items</div>
+        <div class="dr-actions">
+          <button class="btn-confirm" onclick="confirmDelivery('a201','Jon Cabrera')">✓ Mark delivered</button>
+          <button class="btn-flag" onclick="flagIssue('a201')">⚑ Flag issue</button>
+        </div>
+      </div>
+      <div class="dr-time">ETA 3:00 PM</div>
+    </div>
+
+    <div class="delivery-row" id="row-a202">
+      <div class="dr-dot out"></div>
+      <div class="dr-col">
+        <div class="dr-name">Box #A202 — Karl Dizon</div>
+        <div class="dr-meta">Session Road Area · Solo Box · 3 items</div>
+        <div class="dr-actions">
+          <button class="btn-confirm" onclick="confirmDelivery('a202','Karl Dizon')">✓ Mark delivered</button>
+          <button class="btn-flag" onclick="flagIssue('a202')">⚑ Flag issue</button>
+        </div>
+      </div>
+      <div class="dr-time">ETA 3:15 PM</div>
+    </div>
+
+    <div class="delivery-row" id="row-a203">
+      <div class="dr-dot out"></div>
+      <div class="dr-col">
+        <div class="dr-name">Box #A203 — Rica Domingo</div>
+        <div class="dr-meta">Burnham Park area · Solo Box · 3 items</div>
+        <div class="dr-actions">
+          <button class="btn-confirm" onclick="confirmDelivery('a203','Rica Domingo')">✓ Mark delivered</button>
+          <button class="btn-flag" onclick="flagIssue('a203')">⚑ Flag issue</button>
+        </div>
+      </div>
+      <div class="dr-time">ETA 4:00 PM</div>
+    </div>
+  </div>
+
+  <div class="health-prompt">
+    <div class="hp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-700)" stroke-width="1.8"><path d="M20 8a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 5 9 12 9 12s9-7 9-12z"/></svg></div>
+    <div>
+      <div class="hp-title">Health log nudge — sent automatically</div>
+      <div class="hp-body">Once a box is marked delivered, subscribers receive a nudge to log their health metrics — weight, energy, blood sugar notes. This builds their health trend data week over week.</div>
+      <a href="../consumer_dashboard.html" class="hp-link">See consumer health dashboard →</a>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="../admin_dashboard.html" class="cta-btn">Back to admin overview →</a>
+  </div>
+</div>
+
+<div id="fth-toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E2415;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:9px 18px;border-radius:100px;z-index:10000;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);"></div>
+<nav aria-label="Demo navigation" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;background:rgba(23,52,4,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:5px 6px;border-radius:100px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;padding:4px 8px 4px 6px;border-right:1px solid rgba(255,255,255,0.1);margin-right:2px;">DEMO</span>
+  <a href="../consumer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Consumer</a>
+  <a href="../farmer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Farmer</a>
+  <a href="../admin_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;background:#3B6D11;color:#fff;">Admin</a>
+</nav>
+
+<script>
+function showToast(m){const t=document.getElementById('fth-toast');t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);}
+
+let outCount = 4;
+let deliveredCount = 54;
+let flagCount = 0;
+
+function confirmDelivery(id, name){
+  const row = document.getElementById('row-' + id);
+  row.innerHTML = `
+    <div class="dr-dot delivered"></div>
+    <div class="dr-col">
+      <div class="dr-name">${row.querySelector('.dr-name').textContent}</div>
+      <div class="dr-meta">${row.querySelector('.dr-meta').textContent}</div>
+    </div>
+    <span class="delivered-badge">✓ Delivered</span>
+  `;
+  outCount--;
+  deliveredCount++;
+  document.getElementById('del-count').textContent = deliveredCount;
+  document.getElementById('out-count').textContent = outCount;
+  document.getElementById('out-label').textContent = outCount + ' box' + (outCount !== 1 ? 'es' : '') + ' in transit';
+  showToast(`${name}'s box marked as delivered`);
+  if(outCount === 0){
+    document.getElementById('out-panel').style.display = 'none';
+    document.getElementById('success-card').classList.add('show');
+  }
+}
+
+function flagIssue(id){
+  flagCount++;
+  document.getElementById('flag-count').textContent = flagCount;
+  showToast('Issue flagged — ops team notified');
+}
+</script>
+</body>
+</html>

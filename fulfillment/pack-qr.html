@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack & Generate QR — FarmToHealth</title>
+<meta name="description" content="Pack subscriber boxes and generate QR traceability codes for each batch.">
+<meta property="og:title" content="Pack & Generate QR — FarmToHealth">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23173404'/%3E%3Cpath d='M16 6c-4 5-4 11-4 14a4 4 0 008 0c0-3 0-9-4-14z' fill='%2397C459'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EA; --ink:#1E2415; --ink-soft:#586154; --ink-faint:#8B9284;
+    --green-900:#173404; --green-700:#27500A; --green-600:#3B6D11;
+    --green-300:#97C459; --green-100:#C0DD97; --green-50:#EAF3DE;
+    --amber-600:#B5790F; --amber-100:#FAEEDA;
+    --serif:'Fraunces',serif; --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:13.5px;padding-bottom:80px;}
+
+  .topbar{background:var(--green-900);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+  .tb-back{color:var(--green-300);font-family:var(--mono);font-size:11px;text-decoration:none;letter-spacing:0.06em;}
+  .tb-brand{font-family:var(--serif);font-weight:500;font-size:17px;color:#fff;}
+  .tb-section{font-family:var(--mono);font-size:10px;color:var(--green-300);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;}
+  .tb-date{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.4);}
+
+  .step-bar{background:#fff;border-bottom:1px solid #E4E3D8;padding:0 28px;display:flex;align-items:center;overflow-x:auto;}
+  .step-link{display:flex;align-items:center;gap:8px;padding:14px 14px 14px 0;text-decoration:none;color:var(--ink-faint);}
+  .step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;background:#E4E3D8;color:var(--ink-faint);flex:none;}
+  .step-link.done .step-num{background:var(--green-100);color:var(--green-700);}
+  .step-link.active .step-num{background:var(--green-600);color:#fff;}
+  .step-label{font-size:12.5px;font-weight:600;white-space:nowrap;}
+  .step-link.active .step-label{color:var(--green-700);}
+  .step-sep{color:#D0CFC5;font-size:13px;margin:0 6px;flex:none;}
+
+  .main{max-width:960px;margin:0 auto;padding:28px 28px 40px;}
+  .page-title{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:4px;}
+  .page-sub{font-size:12.5px;color:var(--ink-faint);margin-bottom:24px;}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+  .kpi{background:#fff;border:1px solid #E4E3D8;border-radius:14px;padding:16px;}
+  .kpi-label{font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:0.03em;font-family:var(--mono);margin-bottom:8px;}
+  .kpi-value{font-family:var(--serif);font-weight:500;font-size:26px;}
+  .kpi-sub{font-size:11.5px;color:var(--ink-faint);margin-top:4px;}
+
+  .panel{background:#fff;border:1px solid #E4E3D8;border-radius:14px;padding:20px;margin-bottom:20px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .panel-title{font-family:var(--serif);font-weight:500;font-size:16px;}
+  .panel-action{font-size:12px;color:var(--green-700);font-weight:600;text-decoration:none;cursor:pointer;background:none;border:none;font-family:var(--sans);}
+
+  .box-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+  .box-card{border:1px solid #E4E3D8;border-radius:12px;padding:14px;background:var(--paper);}
+  .box-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .box-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+  .box-sub{font-size:12px;color:var(--ink-faint);margin-top:1px;}
+  .qr-badge{display:inline-flex;align-items:center;gap:4px;background:var(--green-50);border:1px solid var(--green-100);color:var(--green-700);font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;}
+  .qr-badge svg{width:11px;height:11px;}
+  .box-items{display:flex;flex-direction:column;gap:4px;margin-top:10px;}
+  .box-item{font-size:12.5px;color:var(--ink-soft);display:flex;justify-content:space-between;}
+  .box-item span{font-family:var(--mono);font-size:11.5px;}
+  .box-link{display:block;text-align:center;font-size:12px;font-weight:600;color:var(--green-700);text-decoration:none;margin-top:12px;padding:7px;border:1px solid var(--green-100);border-radius:8px;background:#fff;}
+
+  .qr-explainer{background:var(--green-50);border:1px solid var(--green-100);border-radius:12px;padding:16px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start;}
+  .qr-icon{width:44px;height:44px;border-radius:12px;background:var(--green-600);display:flex;align-items:center;justify-content:center;flex:none;}
+  .qr-icon svg{width:22px;height:22px;}
+  .qr-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+  .qr-body{font-size:12.5px;color:var(--ink-soft);line-height:1.55;}
+
+  .progress-bar-wrap{margin-bottom:6px;}
+  .pb-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-bottom:6px;}
+  .pb-track{height:6px;background:#E4E3D8;border-radius:3px;overflow:hidden;}
+  .pb-fill{height:100%;background:var(--green-600);border-radius:3px;transition:width 1s ease;}
+
+  .cta-row{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;flex-wrap:wrap;}
+  .cta-btn{display:inline-block;background:var(--green-600);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 28px;border-radius:10px;}
+  .cta-ghost{display:inline-block;border:1.5px solid #E4E3D8;color:var(--ink-soft);text-decoration:none;font-weight:600;font-size:13.5px;padding:12px 20px;border-radius:10px;}
+
+  @media(max-width:700px){
+    .topbar{padding:12px 16px;}
+    .main{padding:20px 16px 40px;}
+    .kpi-row{grid-template-columns:1fr 1fr;}
+    .step-label{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="harvest.html" class="tb-back">← Harvest</a>
+    <div>
+      <div class="tb-brand">FarmToHealth</div>
+      <div class="tb-section">Fulfillment</div>
+    </div>
+  </div>
+  <div class="tb-date">Week of Jul 21, 2026</div>
+</div>
+
+<div class="step-bar">
+  <div><a href="assembly.html" class="step-link done"><span class="step-num">1</span><span class="step-label">Assembly</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="harvest.html" class="step-link done"><span class="step-num">2</span><span class="step-label">Harvest &amp; Log</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="pack-qr.html" class="step-link active"><span class="step-num">3</span><span class="step-label">Pack &amp; QR</span></a></div>
+  <span class="step-sep">›</span>
+  <div><a href="delivery.html" class="step-link"><span class="step-num">4</span><span class="step-label">Delivery</span></a></div>
+</div>
+
+<div class="main">
+  <div class="page-title">Pack &amp; Generate QR</div>
+  <div class="page-sub">58 subscriber boxes · QR linked to harvest batch data</div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Boxes packed</div>
+      <div class="kpi-value" id="packed-count">0</div>
+      <div class="kpi-sub">of 58 total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">QR codes generated</div>
+      <div class="kpi-value" id="qr-count">0</div>
+      <div class="kpi-sub">Linked to batch data</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ready to dispatch</div>
+      <div class="kpi-value" id="ready-count">0</div>
+      <div class="kpi-sub">Awaiting pickup</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">Packing progress</span>
+      <button class="panel-action" onclick="runPacking()">▶ Generate all QR codes</button>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="pb-label"><span>Boxes packed &amp; QR generated</span><span id="pb-pct">0 / 58</span></div>
+      <div class="pb-track"><div class="pb-fill" id="pb-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="qr-explainer">
+    <div class="qr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2v2h-2z"/></svg></div>
+    <div>
+      <div class="qr-title">What's in each QR code?</div>
+      <div class="qr-body">Each item's QR links to its specific batch — farm name, GPS plot, planting date, every fertilizer and pesticide application, and harvest date. Consumers can scan it in seconds.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <span class="panel-title">Sample boxes</span>
+      <a href="../qr_traceability_page.html" class="panel-action">Preview QR scan →</a>
+    </div>
+    <div class="box-grid">
+      <div class="box-card">
+        <div class="box-top">
+          <div>
+            <div class="box-id">Box #A200</div>
+            <div class="box-sub">Maria Santos · Health-Focused Weekly</div>
+          </div>
+          <span class="qr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>QR ready</span>
+        </div>
+        <div class="box-items">
+          <div class="box-item">Carrots (Kuroda) <span>1 kg</span></div>
+          <div class="box-item">Pechay <span>800 g</span></div>
+          <div class="box-item">Sayote <span>1.2 kg</span></div>
+          <div class="box-item">Kangkong <span>400 g</span></div>
+        </div>
+        <a href="../qr_traceability_page.html" class="box-link">Scan QR preview →</a>
+      </div>
+      <div class="box-card">
+        <div class="box-top">
+          <div>
+            <div class="box-id">Box #A201</div>
+            <div class="box-sub">Jon Cabrera · Family Box</div>
+          </div>
+          <span class="qr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>QR ready</span>
+        </div>
+        <div class="box-items">
+          <div class="box-item">Carrots (Kuroda) <span>2 kg</span></div>
+          <div class="box-item">Pechay <span>1.5 kg</span></div>
+          <div class="box-item">Sayote <span>2 kg</span></div>
+          <div class="box-item">Kangkong <span>800 g</span></div>
+        </div>
+        <a href="../qr_traceability_page.html" class="box-link">Scan QR preview →</a>
+      </div>
+      <div class="box-card">
+        <div class="box-top">
+          <div>
+            <div class="box-id">Box #A202</div>
+            <div class="box-sub">Karl Dizon · Solo Box</div>
+          </div>
+          <span class="qr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>QR ready</span>
+        </div>
+        <div class="box-items">
+          <div class="box-item">Carrots (Kuroda) <span>500 g</span></div>
+          <div class="box-item">Pechay <span>600 g</span></div>
+          <div class="box-item">Kangkong <span>300 g</span></div>
+        </div>
+        <a href="../qr_traceability_page.html" class="box-link">Scan QR preview →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="../qr_traceability_page.html" class="cta-ghost">Preview a QR scan</a>
+    <a href="delivery.html" class="cta-btn">Mark all as out for delivery →</a>
+  </div>
+</div>
+
+<div id="fth-toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E2415;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:9px 18px;border-radius:100px;z-index:10000;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);"></div>
+<nav aria-label="Demo navigation" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;background:rgba(23,52,4,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:5px 6px;border-radius:100px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;padding:4px 8px 4px 6px;border-right:1px solid rgba(255,255,255,0.1);margin-right:2px;">DEMO</span>
+  <a href="../consumer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Consumer</a>
+  <a href="../farmer_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;color:rgba(255,255,255,0.6);">Farmer</a>
+  <a href="../admin_dashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-decoration:none;padding:5px 12px;border-radius:100px;background:#3B6D11;color:#fff;">Admin</a>
+</nav>
+
+<script>
+function showToast(m){const t=document.getElementById('fth-toast');t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);}
+function runPacking(){
+  const total = 58;
+  let current = 0;
+  const interval = setInterval(() => {
+    current = Math.min(current + Math.floor(Math.random() * 5 + 2), total);
+    document.getElementById('packed-count').textContent = current;
+    document.getElementById('qr-count').textContent = current;
+    document.getElementById('ready-count').textContent = current;
+    document.getElementById('pb-fill').style.width = (current/total*100) + '%';
+    document.getElementById('pb-pct').textContent = current + ' / ' + total;
+    if(current >= total){
+      clearInterval(interval);
+      showToast('All 58 QR codes generated — ready to dispatch');
+    }
+  }, 80);
+}
+</script>
+</body>
+</html>
